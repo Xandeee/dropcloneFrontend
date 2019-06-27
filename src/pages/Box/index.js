@@ -30,7 +30,7 @@ class Box extends Component {
 
     io.on('file', data => {
       this.setState({
-        box: { ...this.state.box, files: [data, ...this.state.box.files] }
+        box: { ...this.state.box, files: [...this.state.box.files, data]}
       })
     })
   }
@@ -39,6 +39,14 @@ class Box extends Component {
     files.forEach(file => {
       const data = new FormData();
       const box = this.props.match.params.id;
+
+      data.append('file', file);
+
+      api.post(`boxes/${box}/files`, data);
+    });
+  };
+
+  render() {
 
     const { files } = this.state.box;
 
